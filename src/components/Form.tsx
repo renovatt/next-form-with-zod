@@ -113,12 +113,12 @@ export default function Form() {
                         placeholder='Informa sua permissão'
                     />
 
-                    {/* <Input
-                    name='date'
-                    label='Data'
-                    type='date'
-                    placeholder='06/12/2023'
-                /> */}
+                    <Input
+                        name='date'
+                        label='Data de Nascimento'
+                        type='date'
+                        placeholder='06/12/2023'
+                    />
 
                     <Select
                         name='select'
