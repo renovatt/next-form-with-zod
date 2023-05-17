@@ -28,7 +28,7 @@ export const zodSchema = z.object({
     //         return files.item(0)!
     //     }),
 
-     // date: z.date().safeParse(new Date()),
+    // date: z.date().safeParse(new Date()),
     // date: z.date().min(new Date("1900-01-01"), { message: "Too old" }),
     // date: z.date().max(new Date(), "Muito jovem!"),
 
