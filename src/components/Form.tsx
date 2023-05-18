@@ -10,6 +10,8 @@ import Select from "./Select";
 import { useState } from "react";
 import InputNumber from "./InputNumber";
 import InputAvatar from "./InputAvatar";
+import Label from "./Label";
+import JsonData from "./JsonData";
 // import supabase from "@/supabase";
 
 export default function Form() {
@@ -52,9 +54,9 @@ export default function Form() {
 
     return (
         <FormProvider {...methods}>
-            <section className="flex flex-col">
+            <section className="flex flex-col gap-4 w-full max-w-xs">
                 <form
-                    className="flex flex-col"
+                    className="flex flex-col gap-4 w-full max-w-xs"
                     onSubmit={methods.handleSubmit(onSubmit)}>
 
                     <InputAvatar
@@ -132,15 +134,12 @@ export default function Form() {
                     />
 
                     <div className="flex flex-col gap-1">
-                        <label htmlFor="">Tecnolgias
-                            <button onClick={addNewTech} type="button" className="text-cyan-500">
-                                Adicionar
-                            </button>
-                        </label>
+                        <Label htmlFor="techs">Tecnologias</Label>
+                        <button onClick={addNewTech} type="button" className="text-violet-500 font-semibold text-sm flex items-center gap-1">Adicionar</button>
 
                         {fields.map((field, index) => {
                             return (
-                                <div key={field.id} className="flex gap-2">
+                                <div key={field.id} className="flex flex-col gap-1">
                                     <Input
                                         name={`techs.${index}.title`}
                                         label='Titulo'
@@ -159,19 +158,17 @@ export default function Form() {
                                         title='knowledge'
                                     />
 
-                                    <button type="button" onClick={() => remove(index)}>Del</button>
+                                    <button className="bg-red-500 text-white rounded px-3 h-10 font-semibold text-sm hover:bg-red-600 cursor-pointer" type="button" onClick={() => remove(index)}>Remover</button>
                                 </div>
                             )
                         })}
-                        {errors.techs && (<p className='text-red-600'>{errors.techs.message}</p>)}
+                        {errors.techs && (<p className='text-xs text-red-500 mt-1'>{errors.techs.message}</p>)}
                     </div>
 
-                    <input className="cursor-pointer" type='submit' />
+                    <input className="bg-violet-500 text-white rounded px-3 h-10 font-semibold text-sm hover:bg-violet-600 cursor-pointer" type='submit' />
                 </form>
 
-                <div className="flex flex-col">
-                    {data && (<pre>{data}</pre>)}
-                </div>
+                <JsonData data={data} />
             </section>
         </FormProvider>
     );

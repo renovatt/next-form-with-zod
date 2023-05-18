@@ -1,12 +1,13 @@
 import { InputProps } from '@/@types'
 import { useFormContext } from "react-hook-form";
+import Label from './Label';
 
 const InputNumber = ({ ...props }: InputProps) => {
     const { register, formState: { errors } } = useFormContext();
 
     return (
         <>
-            <label htmlFor="">{props.label}</label>
+            <Label htmlFor={props.name}>{props.label}</Label>
             <input
                 {...register(props.name, {
                     setValueAs: (value: string) => parseInt(value, 10)
@@ -16,7 +17,7 @@ const InputNumber = ({ ...props }: InputProps) => {
                 placeholder={props.placeholder}
             />
             {errors?.[props.name] && (
-                <p className='text-red-600'>{String(errors?.[props.name]?.message)}</p>)}
+                <p className='text-xs text-red-500 mt-1'>{String(errors?.[props.name]?.message)}</p>)}
         </>
     )
 }

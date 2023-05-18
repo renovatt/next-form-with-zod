@@ -1,13 +1,14 @@
 import React from 'react'
 import { SelectProps } from '@/@types';
 import { useFormContext } from 'react-hook-form';
+import Label from './Label';
 
 const Select = ({ ...props }: SelectProps) => {
     const { register, formState: { errors } } = useFormContext();
 
     return (
         <>
-            <label htmlFor="">{props.label}</label>
+            <Label htmlFor={props.name}>{props.label}</Label>
             <select {...register(props.name)}
                 className='w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline'>
                 <option value="">Eschola</option>
@@ -16,7 +17,7 @@ const Select = ({ ...props }: SelectProps) => {
                 ))}
             </select>
             {errors?.[props.name] && (
-                <p className='text-red-600'>{String(errors?.[props.name]?.message)}</p>)}
+                <p className='text-xs text-red-500 mt-1'>{String(errors?.[props.name]?.message)}</p>)}
         </>
     )
 }

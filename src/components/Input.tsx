@@ -1,5 +1,6 @@
 import { InputProps } from '@/@types'
 import { useFormContext } from "react-hook-form";
+import Label from './Label';
 
 const Input = ({ ...props }: InputProps) => {
     const { register, formState: { errors } } = useFormContext();
@@ -7,19 +8,19 @@ const Input = ({ ...props }: InputProps) => {
 
     return (
         <>
-            <label htmlFor="">{props.label}</label>
+            <Label htmlFor={props.name}>{props.label}</Label>
             <input
                 {...register(props.name)}
-                className='w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline'
+                className='flex-1 rounded border border-zinc-300 shadow-sm px-3 py-2 text-zinc-800 focus:outline-none focus:ring-2 focus:ring-violet-500'
                 type={props.type}
                 placeholder={props.placeholder}
             />
             {errors?.[props.name] && (
-                <p className='text-red-600'>{String(errors?.[props.name]?.message)}</p>)
+                <p className='text-xs text-red-500 mt-1'>{String(errors?.[props.name]?.message)}</p>)
             }
 
             {props.index !== undefined && techErrors?.[props.index] && (
-                <p className='text-red-600'>{techErrors[props.index][String(props.title)]?.message}</p>
+                <p className='text-xs text-red-500 mt-1'>{techErrors[props.index][String(props.title)]?.message}</p>
             )}
         </>
     )
