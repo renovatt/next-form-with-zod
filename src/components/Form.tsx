@@ -14,6 +14,7 @@ import JsonData from "./JsonData";
 import TechList from "./TechList";
 import { Field } from "./Field";
 import { ErrorMessage } from "./ErrorMessage";
+import InputPhoneMask from "./InputPhoneMask";
 // import supabase from "@/supabase";
 
 export default function Form() {
@@ -100,9 +101,9 @@ export default function Form() {
                     <Field>
                         <InputNumber
                             name='quantity'
-                            label='Quantity'
+                            label='Quantidade'
                             type='number'
-                            placeholder='Informe seu número'
+                            placeholder='Informe uma quantidade qualquer'
                         />
                         <ErrorMessage field="quantity" />
                     </Field>
@@ -115,6 +116,16 @@ export default function Form() {
                             placeholder='Informe sua url'
                         />
                         <ErrorMessage field="url" />
+                    </Field>
+
+                    <Field>
+                        <Input
+                            name='cpf'
+                            label='CPF'
+                            type='text'
+                            placeholder='Informe o seu CPF'
+                        />
+                        <ErrorMessage field="cpf" />
                     </Field>
 
                     <Field>
@@ -135,6 +146,16 @@ export default function Form() {
                             placeholder='06/12/2023'
                         />
                         <ErrorMessage field="date" />
+                    </Field>
+
+                    <Field>
+                        <InputPhoneMask
+                            name='phone'
+                            label='Contato'
+                            type='text'
+                            placeholder='(99) 9999-9999'
+                        />
+                        <ErrorMessage field="phone" />
                     </Field>
 
                     <Field>

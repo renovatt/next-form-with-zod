@@ -46,6 +46,18 @@ export const zodSchema = z.object({
         }
     }).positive('O número deve ser positivo'),
 
+    phone: z.string({
+        errorMap: () => {
+            return { message: 'Informe um número de contato válido' }
+        }
+    }).nonempty('Número de contato obrigatório'),
+
+    cpf: z.string({
+        errorMap: () => {
+            return { message: 'Informe um número de CPF válido' }
+        }
+    }).nonempty('CPF é obrigatório'),
+
     role: z.enum(['admin', 'user'], {
         errorMap: () => {
             return { message: 'Escolha entre admin ou user' }
@@ -63,6 +75,14 @@ export const zodSchema = z.object({
     .refine(fields => fields.select.length > 0, {
         path: ['select'],
         message: 'Precisa selecionar uma opção'
+    })
+    .refine(fields => /^\(\d{2}\) \d{5}-\d{4}$/.test(fields.phone), {
+        message: "Número de contato inválido",
+        path: ['phone'],
+    })
+    .refine(fields => /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(fields.cpf), {
+        message: "O CPF deve estar no formato 123.456.789-01.",
+        path: ['cpf'],
     })
 
     .transform(fields => ({
@@ -84,4 +104,6 @@ export const zodSchema = z.object({
             month: 'long',
             day: 'numeric',
         }),
+        phone: fields.phone,
+        cpf: fields.cpf,
     }))
