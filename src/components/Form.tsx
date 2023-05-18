@@ -124,7 +124,7 @@ export default function Form() {
 
                     <Select
                         name='select'
-                        label='Selecione uma opção'
+                        label='Sexo'
                         options={['Masculino', 'Feminino']}
                     />
 
