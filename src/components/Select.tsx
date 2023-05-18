@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import Label from './Label';
 
 const Select = ({ ...props }: SelectProps) => {
-    const { register, formState: { errors } } = useFormContext();
+    const { register } = useFormContext();
 
     return (
         <>
@@ -16,8 +16,6 @@ const Select = ({ ...props }: SelectProps) => {
                     <option key={index} value={option}>{option}</option>
                 ))}
             </select>
-            {errors?.[props.name] && (
-                <p className='text-xs text-red-500 mt-1'>{String(errors?.[props.name]?.message)}</p>)}
         </>
     )
 }
