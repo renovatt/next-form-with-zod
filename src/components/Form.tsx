@@ -118,7 +118,7 @@ export default function Form() {
                     <Input
                         name='date'
                         label='Data de Nascimento'
-                        type='date'
+                        type='datetime-local'
                         placeholder='06/12/2023'
                     />
 

@@ -3,6 +3,16 @@ import { z } from "zod";
 // const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5mb
 // const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
+// avatar: z.instanceof(FileList)
+//     .refine((files) => !!files.item(0), "A imagem de perfil é obrigatória")
+//     .refine((files) => files.item(0)!.size <= MAX_FILE_SIZE, `Tamanho máximo de 5MB`)
+//     .refine(
+//         (files) => ACCEPTED_IMAGE_TYPES.includes(files.item(0)!.type),
+//         "Formato de imagem inválido"
+//     ).transform(files => {
+//         return files.item(0)!
+//     }),
+
 export const zodSchema = z.object({
     username: z.string().max(44, 'O nome tem muito caracteres').nonempty('Nome é obrigatório'),
     email: z.string().email('Precisa ser um e-mail válido'),
@@ -23,8 +33,7 @@ export const zodSchema = z.object({
             return { message: 'Informe uma data válida' }
         }
     })
-        .refine(value => value >= new Date("1900-01-01"), "Você é muito velho")
-        .refine(value => value <= new Date(), "Você é muito novo"),
+        .refine(value => value >= new Date("1900-01-01"), "Você é muito velho"),
 
     techs: z.array(z.object({
         title: z.string().nonempty('Digite uma tecnologia'),
@@ -76,13 +85,3 @@ export const zodSchema = z.object({
             day: 'numeric',
         }),
     }))
-
-    // avatar: z.instanceof(FileList)
-    //     .refine((files) => !!files.item(0), "A imagem de perfil é obrigatória")
-    //     .refine((files) => files.item(0)!.size <= MAX_FILE_SIZE, `Tamanho máximo de 5MB`)
-    //     .refine(
-    //         (files) => ACCEPTED_IMAGE_TYPES.includes(files.item(0)!.type),
-    //         "Formato de imagem inválido"
-    //     ).transform(files => {
-    //         return files.item(0)!
-    //     }),
