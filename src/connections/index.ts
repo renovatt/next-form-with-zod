@@ -1,9 +1,9 @@
-import { PhotoProps } from "@/@types"
+import { AvatarImageProps } from "@/@types"
 import { ref, listAll, getDownloadURL, uploadBytes } from "firebase/storage"
 import { storage } from "@/firebase"
 
 export const getAll = async () => {
-    const list: PhotoProps[] = []
+    const list: AvatarImageProps[] = []
     const imagensFolder = ref(storage, "avatars")
     const photoList = await listAll(imagensFolder)
 
@@ -22,7 +22,7 @@ export const Insert = async (file: File, username: string) => {
         const newFileRef = ref(storage, `avatars/${username}`)
         const upload = await uploadBytes(newFileRef, file)
         const photoUrl = await getDownloadURL(upload.ref)
-        return { name: upload.ref.name, url: photoUrl } as PhotoProps
+        return { name: upload.ref.name, url: photoUrl } as AvatarImageProps
     } else {
         return new Error('Arquivo não suportado.')
     }

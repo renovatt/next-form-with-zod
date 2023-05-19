@@ -2,23 +2,43 @@
 
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SchemaTypeProps } from '@/@types'
+import { AvatarImageProps, SchemaTypeProps } from '@/@types'
 import { zodSchema } from '@/zod'
 import Input from "./Input";
 import Checkbox from "./Checkbox";
 import Select from "./Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputNumber from "./InputNumber";
 import InputAvatar from "./InputAvatar";
-import JsonData from "./JsonData";
+import UserData from "./UserData";
 import TechList from "./TechList";
 import { Field } from "./Field";
 import { ErrorMessage } from "./ErrorMessage";
 import InputPhoneMask from "./InputPhoneMask";
+import { Insert, getAll } from "@/connections";
+import { storage } from "@/firebase";
 // import supabase from "@/supabase";
 
+// const defaultData: SchemaTypeProps = {
+//     password: "",
+//     confirmPassword: "",
+//     agree: false,
+//     select: "",
+//     quantity: 0,
+//     role: "user",
+//     url: "",
+//     email: "",
+//     username: "",
+//     techs: [],
+//     avatar: File,
+//     date: "",
+//     phone: "",
+//     cpf: ""
+// };
+
 export default function Form() {
-    const [data, setData] = useState('')
+    const [data, setData] = useState<any>({})
+    const [photos, setPhotos] = useState<AvatarImageProps[]>([])
 
     const methods = useForm<SchemaTypeProps>({
         mode: 'all',
@@ -27,19 +47,29 @@ export default function Form() {
     });
 
     const onSubmit = async (data: SchemaTypeProps) => {
-        // const avatarFile = data.avatar;
-        // const { data: uploadData, error } = await supabase
-        //     .storage
-        //     .from('form-zod')
-        //     .upload(`avatars/${avatarFile.name}`, avatarFile, {
-        //         cacheControl: '3600',
-        //         upsert: false
-        //     })
+        const file = data.avatar;
 
-        // console.log(uploadData)
-        // console.log(error)
-        setData(JSON.stringify(data, null, 2))
+        if (file && file.size > 0) {
+            const result = await Insert(file, data.username)
+
+            if (result instanceof Error) {
+                alert(`${result.name} - ${result.message}`)
+            } else {
+                const newPhotoList = [...photos]
+                newPhotoList.push(result)
+                setPhotos(newPhotoList)
+            }
+        }
+        setData(data)
     };
+
+    const getPhotos = async () => {
+        setPhotos(await getAll())
+    }
+
+    useEffect(() => {
+        getPhotos()
+    }, [])
 
     return (
         <FormProvider {...methods}>
@@ -182,7 +212,8 @@ export default function Form() {
 
                     <input className="bg-violet-500 text-white rounded px-3 h-10 font-semibold text-sm hover:bg-violet-600 cursor-pointer" type='submit' />
                 </form>
-                <JsonData data={data} />
+
+                <UserData {...data} />
             </section>
         </FormProvider>
     );

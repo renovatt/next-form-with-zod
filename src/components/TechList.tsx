@@ -29,8 +29,6 @@ const TechList = () => {
                             label='Titulo'
                             type='text'
                             placeholder='Informe uma tecnologia'
-                            index={index}
-                            title='title'
                         />
                         <ErrorMessage field={titleName} />
 
@@ -39,8 +37,6 @@ const TechList = () => {
                             label='Nível'
                             type='number'
                             placeholder='Nível de conhecimento'
-                            index={index}
-                            title='knowledge'
                         />
                         <ErrorMessage field={knowledgeName} />
 
