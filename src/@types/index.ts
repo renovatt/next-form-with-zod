@@ -8,8 +8,6 @@ export type InputProps = {
     label: string;
     type: string;
     placeholder: string;
-    index?: number;
-    title?: string;
 }
 
 export type SelectProps = {
@@ -21,4 +19,9 @@ export type SelectProps = {
 export type CheckboxProps = {
     name: string;
     label: string;
+}
+
+export type AvatarImageProps = {
+    name: string;
+    url: string;
 }
