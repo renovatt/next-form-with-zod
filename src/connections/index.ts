@@ -2,6 +2,8 @@ import { AvatarImageProps } from "@/@types"
 import { ref, listAll, getDownloadURL, uploadBytes } from "firebase/storage"
 import { storage } from "@/firebase"
 
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
 export const getAll = async () => {
     const list: AvatarImageProps[] = []
     const imagensFolder = ref(storage, "avatars")
@@ -18,7 +20,7 @@ export const getAll = async () => {
 }
 
 export const Insert = async (file: File, username: string) => {
-    if (['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+    if (ACCEPTED_IMAGE_TYPES.includes(file.type)) {
         const newFileRef = ref(storage, `avatars/${username}`)
         const upload = await uploadBytes(newFileRef, file)
         const photoUrl = await getDownloadURL(upload.ref)
