@@ -11,7 +11,7 @@ const Select = ({ ...props }: SelectProps) => {
             <Label htmlFor={props.name}>{props.label}</Label>
             <select {...register(props.name)}
                 className='w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded appearance-none focus:outline-none focus:shadow-outline'>
-                <option value="">Eschola</option>
+                <option value="">Escolha</option>
                 {props.options.length && props.options.map((option: string, index) => (
                     <option key={index} value={option}>{option}</option>
                 ))}
