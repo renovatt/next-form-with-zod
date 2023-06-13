@@ -1,19 +1,15 @@
 import { z } from "zod";
 
-// const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5mb
-// const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
-// avatar: z.instanceof(FileList)
-//     .refine((files) => !!files.item(0), "A imagem de perfil é obrigatória")
-//     .refine((files) => files.item(0)!.size <= MAX_FILE_SIZE, `Tamanho máximo de 5MB`)
-//     .refine(
-//         (files) => ACCEPTED_IMAGE_TYPES.includes(files.item(0)!.type),
-//         "Formato de imagem inválido"
-//     ).transform(files => {
-//         return files.item(0)!
-//     }),
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5mb
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export const zodSchema = z.object({
+    avatar: z
+        .custom<FileList>(files => files instanceof FileList)
+        .transform(list => list.item(0))
+        .refine((files) => files!.size <= MAX_FILE_SIZE, 'Tamanho máximo de 5MB')
+        .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files!.type), "Formato de imagem inválido"),
+
     username: z.string().max(44, 'O nome tem muito caracteres').nonempty('Nome é obrigatório'),
     email: z.string().email('Precisa ser um e-mail válido'),
     password: z.string().min(6, 'A senha precisa ter pelo menos 6 caracteres'),
@@ -21,12 +17,6 @@ export const zodSchema = z.object({
     agree: z.boolean(),
     select: z.string(),
     url: z.string().url('Por favor informe uma url válida'),
-
-    avatar: z.instanceof(FileList)
-        .refine((files) => !!files.item(0), "A imagem de perfil é obrigatória")
-        .transform(files => {
-            return files.item(0)!
-        }),
 
     date: z.coerce.date({
         errorMap: () => {
@@ -58,7 +48,7 @@ export const zodSchema = z.object({
         }
     }).nonempty('CPF é obrigatório'),
 
-    role: z.enum(['admin', 'user'], {
+    role: z.enum(['admin', 'user', ''], {
         errorMap: () => {
             return { message: 'Escolha entre admin ou user' }
         }
@@ -83,6 +73,10 @@ export const zodSchema = z.object({
     .refine(fields => /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(fields.cpf), {
         message: "O CPF deve estar no formato 123.456.789-01.",
         path: ['cpf'],
+    })
+    .refine(fields => fields.role.length > 0, {
+        path: ['role'],
+        message: 'Escolha entre admin ou user'
     })
 
     .transform(fields => ({
